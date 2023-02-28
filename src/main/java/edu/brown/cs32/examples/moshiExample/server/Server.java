@@ -2,6 +2,7 @@ package edu.brown.cs32.examples.moshiExample.server;
 
 import static spark.Spark.after;
 
+import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
 import edu.brown.cs32.examples.moshiExample.soup.Soup;
 import spark.Filter;
 import spark.Spark;
@@ -18,7 +19,19 @@ import java.util.Set;
 public class Server {
     public static void main(String[] args) {
         Set<Soup> menu = new HashSet<>();
-        Spark.port(3232);
+
+        Soup carrotSoup = new Soup(false);
+        carrotSoup.setSoupName("carrot");
+        carrotSoup.stirIn(new Carrots(Carrots.CarrotChopType.SHREDDED, 3.0));
+
+        Soup mushroomSoup = new Soup(false);
+        carrotSoup.setSoupName("mushroom");
+        carrotSoup.stirIn(new Carrots(Carrots.CarrotChopType.MATCHSTICK, 6.0));
+
+        menu.add(carrotSoup);
+        menu.add(mushroomSoup);
+
+        Spark.port(3000);
         /*
             Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
             be able to make requests to the server.

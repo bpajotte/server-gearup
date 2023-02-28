@@ -8,6 +8,7 @@ import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
 import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
 import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
 import edu.brown.cs32.examples.moshiExample.soup.Soup;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -43,11 +44,23 @@ public class OrderHandler implements Route {
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
+        //gives you the params from queryMap
+        Set<String> params = request.queryParams();
+        String soupName = request.params("soupname");
+        Soup toPrint = null;
         for(Soup soup : menu) {
             // Just make the first one
-            return new SoupSuccessResponse(soup.ingredients()).serialize();
+            if (soup.getSoupName().equals(soupName)) {
+                System.out.println("This is soup " + soup);
+                toPrint = soup;
+                break;
+            }
         }
-        return new SoupNoRecipesFailureResponse().serialize();
+        try {
+            return new SoupSuccessResponse(toPrint.ingredients()).serialize();
+        } catch(Exception e) {
+            return new SoupNoRecipesFailureResponse().serialize();
+        }
 
         // NOTE: beware this "return Object" and "throws Exception" idiom. We need to follow it because
         //   the library uses it, but in general this is lowers the protection of the type system.

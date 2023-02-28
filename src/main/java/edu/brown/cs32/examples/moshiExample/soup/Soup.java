@@ -20,6 +20,7 @@ public class Soup {
      */
     final private Set<Ingredient> contents = new HashSet<>();
     final boolean timidChef;
+    private String soupName;
 
     public Soup(boolean timidChef) {
         this.timidChef = timidChef;
@@ -82,6 +83,14 @@ public class Soup {
     @Override
     public int hashCode() {
         return Objects.hash(contents, timidChef);
+    }
+
+    public void setSoupName(String name) {
+        this.soupName = name;
+    }
+
+    public String getSoupName() {
+        return this.soupName;
     }
 
 }
